@@ -9,8 +9,9 @@ app.use(cors());
 
 app.get("/", async (req, res) => {
   try {
+    const skip = req.query.skip;
     const response = await axios.get(
-      "https://lereacteur-marvel-api.herokuapp.com/characters?apiKey=NCCK2IO62SskO9wr"
+      `https://lereacteur-marvel-api.herokuapp.com/characters?apiKey=NCCK2IO62SskO9wr&skip=${skip}&limit=100`
     );
     res.json(response.data);
   } catch (error) {
@@ -22,6 +23,18 @@ app.get("/comics", async (req, res) => {
   try {
     const response = await axios.get(
       "https://lereacteur-marvel-api.herokuapp.com/comics?apiKey=NCCK2IO62SskO9wr"
+    );
+    res.json(response.data);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+app.get("/heros-comics", async (req, res) => {
+  try {
+    const id = req.query.id;
+    const response = await axios.get(
+      `https://lereacteur-marvel-api.herokuapp.com/comics/${id}?apiKey=NCCK2IO62SskO9wr`
     );
     res.json(response.data);
   } catch (error) {
